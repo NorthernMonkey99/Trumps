@@ -4,7 +4,7 @@ const computerCard = document.getElementById("computer-card");
 const result = document.getElementById("result");
 
 const deck = [
-    { name: "Cyber Warrior", power: 85, speed: 70, image: "images/cyber-warrior.png" },
+    { name: "Cyber Warrior", power: 85, speed: 70, image: "images/cyber-Warrior.png" },
     { name: "Mech Titan", power: 95, speed: 40, image: "images/mech-titan.png" },
     { name: "Shadow Assassin", power: 70, speed: 90, image: "images/shadow-assassin.png" },
 ];
