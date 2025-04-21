@@ -2,12 +2,12 @@
 const playerCard = document.getElementById("player-card");
 const computerCard = document.getElementById("computer-card");
 const statsDiv = document.getElementById("statistics");
-const winnerInfo = document.getElementById("winner-info");
+const battleReportDiv = document.getElementById("battle-report");
 
 const deck = [
-    { name: "Cyber Warrior", power: 85, speed: 70, image: "images/cyber-warrior.png" },
-    { name: "Mech Titan", power: 95, speed: 40, image: "images/mech-titan.png" },
-    { name: "Shadow Assassin", power: 70, speed: 90, image: "images/shadow-assassin.png" },
+    { name: "Cyber Warrior", power: 85, speed: 70, ability: "EMP Blast", effect: "Disables enemy shields (-10 power)", image: "images/cyber-warrior.png" },
+    { name: "Mech Titan", power: 95, speed: 40, ability: "Heavy Slam", effect: "Extra damage (+5 power)", image: "images/mech-titan.png" },
+    { name: "Shadow Assassin", power: 70, speed: 90, ability: "Silent Strike", effect: "Ignores enemy defenses (No counter)", image: "images/shadow-assassin.png" },
 ];
 
 function playRound() {
@@ -17,8 +17,22 @@ function playRound() {
     playerCard.style.backgroundImage = `url(${playerDraw.image})`;
     computerCard.style.backgroundImage = `url(${computerDraw.image})`;
 
-    const playerPower = playerDraw.power;
-    const computerPower = computerDraw.power;
+    let playerPower = playerDraw.power;
+    let computerPower = computerDraw.power;
+    let battleReport = `🔹 ${playerDraw.name} uses **${playerDraw.ability}**! ${playerDraw.effect}<br>🔹 ${computerDraw.name} uses **${computerDraw.ability}**! ${computerDraw.effect}<br>`;
+
+    // Apply special ability effects
+    if (playerDraw.ability === "EMP Blast") {
+        computerPower -= 10; // Cyber Warrior disables enemy shields
+    } else if (playerDraw.ability === "Heavy Slam") {
+        playerPower += 5; // Mech Titan gains extra power
+    }
+
+    if (computerDraw.ability === "EMP Blast") {
+        playerPower -= 10;
+    } else if (computerDraw.ability === "Heavy Slam") {
+        computerPower += 5;
+    }
 
     // Display warrior statistics
     statsDiv.innerHTML = `
@@ -26,17 +40,19 @@ function playRound() {
         <strong>${computerDraw.name}:</strong> Power: ${computerPower}, Speed: ${computerDraw.speed}
     `;
 
-    // Determine the winner, apply flashing effect, and show winner stats
+    // Determine the winner, apply flashing effect, and show winner stats in battle report
     playerCard.classList.remove("flashing");
     computerCard.classList.remove("flashing");
 
     if (playerPower > computerPower) {
         playerCard.classList.add("flashing");
-        winnerInfo.innerHTML = `<strong>Winner: ${playerDraw.name}</strong> (Power: ${playerPower}, Speed: ${playerDraw.speed})`;
+        battleReport += `<strong>🔥 ${playerDraw.name} wins with Power: ${playerPower}!</strong>`;
     } else if (playerPower < computerPower) {
         computerCard.classList.add("flashing");
-        winnerInfo.innerHTML = `<strong>Winner: ${computerDraw.name}</strong> (Power: ${computerPower}, Speed: ${computerDraw.speed})`;
+        battleReport += `<strong>🔥 ${computerDraw.name} wins with Power: ${computerPower}!</strong>`;
     } else {
-        winnerInfo.innerHTML = "<strong>It's a draw!</strong>";
+        battleReport += "<strong>⚔️ It's a draw!</strong>";
     }
+
+    battleReportDiv.innerHTML = battleReport;
 }
