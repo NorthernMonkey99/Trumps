@@ -2,6 +2,7 @@
 const playerCard = document.getElementById("player-card");
 const computerCard = document.getElementById("computer-card");
 const statsDiv = document.getElementById("statistics");
+const winnerInfo = document.getElementById("winner-info");
 
 const deck = [
     { name: "Cyber Warrior", power: 85, speed: 70, image: "images/cyber-warrior.png" },
@@ -25,13 +26,17 @@ function playRound() {
         <strong>${computerDraw.name}:</strong> Power: ${computerPower}, Speed: ${computerDraw.speed}
     `;
 
-    // Determine the winner and apply flashing border
+    // Determine the winner, apply flashing effect, and show winner stats
     playerCard.classList.remove("flashing");
     computerCard.classList.remove("flashing");
 
     if (playerPower > computerPower) {
         playerCard.classList.add("flashing");
+        winnerInfo.innerHTML = `<strong>Winner: ${playerDraw.name}</strong> (Power: ${playerPower}, Speed: ${playerDraw.speed})`;
     } else if (playerPower < computerPower) {
         computerCard.classList.add("flashing");
+        winnerInfo.innerHTML = `<strong>Winner: ${computerDraw.name}</strong> (Power: ${computerPower}, Speed: ${computerDraw.speed})`;
+    } else {
+        winnerInfo.innerHTML = "<strong>It's a draw!</strong>";
     }
 }
